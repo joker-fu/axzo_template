@@ -9,10 +9,11 @@ import axzo.template.activity.src.mvvmViewModel
 
 
 fun RecipeExecutor.mvvmActivityRecipe(
-        moduleData: ModuleTemplateData,
-        activityClass: String,
-        layoutName: String,
-        packageName: String
+    moduleData: ModuleTemplateData,
+    activityClass: String,
+    layoutName: String,
+    packageName: String,
+    useViewModel: Boolean,
 ) {
     val (projectData, srcOut, resOut) = moduleData
     val ktOrJavaExt = projectData.language.extension
@@ -28,7 +29,7 @@ fun RecipeExecutor.mvvmActivityRecipe(
 //            useMaterial2 = false
 //    )
 
-    val mvvmActivity = mvvmAcitivityKt(projectData.applicationPackage, activityClass, layoutName, packageName)
+    val mvvmActivity = mvvmAcitivityKt(projectData.applicationPackage, activityClass, layoutName, packageName, useViewModel)
     // 保存Activity
     save(mvvmActivity, srcOut.resolve("${activityClass}Activity.${ktOrJavaExt}"))
     // 保存xml

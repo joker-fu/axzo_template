@@ -7,8 +7,8 @@ import com.android.tools.idea.wizard.template.impl.activities.common.MIN_API
 val mvvmActivityTemplate
     get() = template {
         revision = 1
-        name = "MVVM Activity"
-        description = "适用于BigaDemoMVVM框架的Activity"
+        name = "Axzo Activity"
+        description = "适用于 Axzo 的Activity"
         minApi = MIN_API
         minBuildApi = MIN_API
 
@@ -33,20 +33,33 @@ val mvvmActivityTemplate
             suggest = { "${activityToLayout(activityClass.value.toLowerCase())}" }
         }
 
+        val userViewModel = booleanParameter {
+            name = "是否使用ViewModel"
+            default = true
+            help = "是否使用ViewModel"
+//            constraints = listOf(Constraint.LAYOUT, Constraint.UNIQUE, Constraint.NONEMPTY)
+//            suggest = { "${activityToLayout(activityClass.value.toLowerCase())}" }
+        }
+
         val packageName = defaultPackageNameParameter
 
         widgets(
-                TextFieldWidget(activityClass),
-                TextFieldWidget(layoutName),
-                PackageNameWidget(packageName)
+            TextFieldWidget(activityClass),
+            TextFieldWidget(layoutName),
+            PackageNameWidget(packageName),
+            CheckBoxWidget(userViewModel)
         )
 //        thumb { File("logo.png") }
         recipe = { data: TemplateData ->
+            println("====>1 $data")
+
+            println("====>2 ${(data as ModuleTemplateData).projectTemplateData.applicationPackage}")
             mvvmActivityRecipe(
-                    data as ModuleTemplateData,
-                    activityClass.value,
-                    layoutName.value,
-                    packageName.value)
+                data as ModuleTemplateData,
+                activityClass.value,
+                layoutName.value,
+                packageName.value,
+                userViewModel.value)
         }
     }
 

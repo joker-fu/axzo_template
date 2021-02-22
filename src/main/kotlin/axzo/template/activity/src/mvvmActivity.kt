@@ -1,11 +1,12 @@
 package axzo.template.activity.src
 
 fun mvvmAcitivityKt(
-        applicationPackage:String?,
-        activityClass:String,
-        layoutName:String,
-        packageName:String
-)="""
+    applicationPackage: String?,
+    activityClass: String,
+    layoutName: String,
+    packageName: String,
+    useViewModel: Boolean,
+) = """
 package ${packageName}
 
 import android.app.Activity
@@ -14,10 +15,8 @@ import ${applicationPackage}.R
 import ${applicationPackage}.databinding.Activity${activityClass}Binding
 import com.joker.core.ui.base.BaseDbActivity
 import org.jetbrains.anko.startActivity
-<#if useViewModel>
 import androidx.activity.viewModels
-import ${packageName}.viewmodel.${activityClass}ViewModel
-</#if>
+${if (useViewModel) "import ${packageName}.viewmodel.${activityClass}ViewModel" else ""}
 
 /**
  *  author : 
@@ -28,15 +27,16 @@ class ${activityClass}Activity : BaseDbActivity<Activity${activityClass}Binding>
 
     override val layout = R.layout.${layoutName}
 
-	<#if useViewModel>
-	val viewModel by viewModels<${activityClass}ViewModel>()</#if>
+    ${if (useViewModel) "val viewModel by viewModels<${activityClass}ViewModel>()" else ""}
+
 
     override fun onBindView(savedInstanceState: Bundle?) {
-    <#if useViewModel>
+        ${
+    if (useViewModel) """
     binding.apply {
        vm = viewModel
-   }</#if>
-    }
+   }""" else ""
+}
 
     companion object {
         fun start(act: Activity) {
