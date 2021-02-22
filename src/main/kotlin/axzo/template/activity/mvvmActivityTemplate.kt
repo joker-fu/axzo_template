@@ -12,48 +12,47 @@ val mvvmActivityTemplate
         minApi = MIN_API
         minBuildApi = MIN_API
 
-        category = Category.Other
+        category = Category.Activity
         formFactor = FormFactor.Mobile
         screens = listOf(WizardUiContext.ActivityGallery, WizardUiContext.MenuEntry, WizardUiContext.NewProject, WizardUiContext.NewModule)
 
-        lateinit var layoutName: StringParameter
-
         val activityClass = stringParameter {
             name = "Activity Name"
-            default = "Main"
-            help = "只输入名字，不要包含Activity"
-            constraints = listOf(Constraint.ACTIVITY, Constraint.NONEMPTY, Constraint.UNIQUE)
+            default = "MainActivity"
+            help = "请输入Activity名称"
+            constraints = listOf(Constraint.CLASS, Constraint.NONEMPTY, Constraint.UNIQUE)
         }
 
-        layoutName = stringParameter {
+        val userViewModel = booleanParameter {
+            name = "Use ViewModel"
+            default = true
+            help = "是否使用ViewModel"
+        }
+
+        val layoutName = stringParameter {
             name = "Layout Name"
             default = "activity_main"
             help = "请输入布局的名字"
             constraints = listOf(Constraint.LAYOUT, Constraint.UNIQUE, Constraint.NONEMPTY)
-            suggest = { "${activityToLayout(activityClass.value.toLowerCase())}" }
-        }
-
-        val userViewModel = booleanParameter {
-            name = "是否使用ViewModel"
-            default = true
-            help = "是否使用ViewModel"
-//            constraints = listOf(Constraint.LAYOUT, Constraint.UNIQUE, Constraint.NONEMPTY)
-//            suggest = { "${activityToLayout(activityClass.value.toLowerCase())}" }
+            suggest = {
+                val name = activityClass.value.replaceFirst("Activity", "")
+                activityToLayout(camelCaseToUnderlines(name).toLowerCase())
+            }
         }
 
         val packageName = defaultPackageNameParameter
 
         widgets(
             TextFieldWidget(activityClass),
+            CheckBoxWidget(userViewModel),
             TextFieldWidget(layoutName),
-            PackageNameWidget(packageName),
-            CheckBoxWidget(userViewModel)
+            PackageNameWidget(packageName)
         )
-//        thumb { File("logo.png") }
+
         recipe = { data: TemplateData ->
             mvvmActivityRecipe(
                 data as ModuleTemplateData,
-                activityClass.value,
+                activityClass.value.replaceFirst("Activity", ""),
                 layoutName.value,
                 packageName.value,
                 userViewModel.value)
