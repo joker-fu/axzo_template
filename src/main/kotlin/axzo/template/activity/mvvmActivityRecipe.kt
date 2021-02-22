@@ -36,8 +36,9 @@ fun RecipeExecutor.mvvmActivityRecipe(
     save(mvvmActivity, activityFile)
     // 保存xml
     save(mvvmActivityXml(packageName, activityClass), resOut.resolve("layout/${layoutName}.xml"))
+    if (useViewModel)
     // 保存viewmodel
-    save(mvvmViewModel(packageName, activityClass), srcOut.resolve("${activityClass}ViewModel.${ktOrJavaExt}"))
+        save(mvvmViewModel(packageName, activityClass), srcOut.resolve("${activityClass}ViewModel.${ktOrJavaExt}"))
     // 保存repository
     save(mvvmRepository(packageName, activityClass), srcOut.resolve("${activityClass}Repository.${ktOrJavaExt}"))
 
