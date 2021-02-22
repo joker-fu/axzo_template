@@ -1,4 +1,4 @@
-package org.jetbrains.plugins.template
+package com.github.jokerfu.axzotemplate
 
 import com.intellij.AbstractBundle
 import org.jetbrains.annotations.NonNls

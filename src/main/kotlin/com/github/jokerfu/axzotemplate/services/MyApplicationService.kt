@@ -1,6 +1,6 @@
-package org.jetbrains.plugins.template.services
+package com.github.jokerfu.axzotemplate.services
 
-import org.jetbrains.plugins.template.MyBundle
+import com.github.jokerfu.axzotemplate.MyBundle
 
 class MyApplicationService {
 
