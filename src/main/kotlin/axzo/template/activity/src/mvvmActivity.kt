@@ -7,44 +7,42 @@ fun mvvmAcitivityKt(
         packageName:String
 )="""
 package ${packageName}
+
+import android.app.Activity
 import android.os.Bundle
-import com.shide.baselib.base.BaseActivity
 import ${applicationPackage}.R
-import ${applicationPackage}.BR;
 import ${applicationPackage}.databinding.Activity${activityClass}Binding
-class ${activityClass}Activity : BaseActivity<${activityClass}ViewModel, Activity${activityClass}Binding>() {
-    override fun getContentView(): Int {
-        return R.layout.${layoutName}
+import com.joker.core.ui.base.BaseDbActivity
+import org.jetbrains.anko.startActivity
+<#if useViewModel>
+import androidx.activity.viewModels
+import ${packageName}.viewmodel.${activityClass}ViewModel
+</#if>
+
+/**
+ *  author : 
+ *  date : 
+ *  description : 
+ */
+class ${activityClass}Activity : BaseDbActivity<Activity${activityClass}Binding>() {
+
+    override val layout = R.layout.${layoutName}
+
+	<#if useViewModel>
+	val viewModel by viewModels<${activityClass}ViewModel>()</#if>
+
+    override fun onBindView(savedInstanceState: Bundle?) {
+    <#if useViewModel>
+    binding.apply {
+       vm = viewModel
+   }</#if>
     }
 
-    override fun init(savedInstanceState: Bundle?) {
-        super.init(savedInstanceState)
-        isShowTopBar = false
+    companion object {
+        fun start(act: Activity) {
+            act.startActivity<${activityClass}Activity>()
+        }
     }
+}
 
-    override fun initViewModel() {
-        viewModel = ${activityClass}ViewModel()
-    }
-    /**
-     *	监听数据的变化
-     */
-    override fun observe() {
-
-    }
-    
-    /**
-     *  控件的点击事件
-     */
-    override fun onClick() {
-    }
-
-    override fun initData() {
-        super.initData()
-    }
-    override fun initVariableId(): Int {
-        TODO("Not yet implemented")
-    }
-
-   
-} 
 """
