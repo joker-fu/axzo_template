@@ -22,7 +22,7 @@ val mvvmActivityTemplate
             name = "Activity Name"
             default = "Main"
             help = "只输入名字，不要包含Activity"
-            constraints = listOf(Constraint.NONEMPTY)
+            constraints = listOf(Constraint.ACTIVITY, Constraint.NONEMPTY, Constraint.UNIQUE)
         }
 
         layoutName = stringParameter {
@@ -51,9 +51,6 @@ val mvvmActivityTemplate
         )
 //        thumb { File("logo.png") }
         recipe = { data: TemplateData ->
-            println("====>1 $data")
-
-            println("====>2 ${(data as ModuleTemplateData).projectTemplateData.applicationPackage}")
             mvvmActivityRecipe(
                 data as ModuleTemplateData,
                 activityClass.value,
@@ -68,7 +65,7 @@ val defaultPackageNameParameter
     get() = stringParameter {
         name = "Package name"
         visible = { !isNewModule }
-        default = "com.mycompany.myapp"
+        default = ""
         constraints = listOf(Constraint.PACKAGE)
         suggest = { packageName }
     }

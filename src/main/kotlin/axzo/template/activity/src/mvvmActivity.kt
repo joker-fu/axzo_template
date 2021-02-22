@@ -33,10 +33,11 @@ class ${activityClass}Activity : BaseDbActivity<Activity${activityClass}Binding>
     override fun onBindView(savedInstanceState: Bundle?) {
         ${
     if (useViewModel) """
-    binding.apply {
-       vm = viewModel
-   }""" else ""
+        binding.apply {
+           vm = viewModel
+       }""" else ""
 }
+    }
 
     companion object {
         fun start(act: Activity) {
