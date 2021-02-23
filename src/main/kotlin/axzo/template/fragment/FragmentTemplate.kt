@@ -13,7 +13,7 @@ val fragmentTemplate
         description = "适用于 Axzo 的Fragment"
         minApi = MIN_API
         minBuildApi = MIN_API
-        category = Category.Activity
+        category = Category.Fragment
         formFactor = FormFactor.Mobile
         screens = listOf(WizardUiContext.ActivityGallery, WizardUiContext.MenuEntry, WizardUiContext.NewProject, WizardUiContext.NewModule)
 
