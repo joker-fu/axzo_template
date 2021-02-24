@@ -1,23 +1,24 @@
-package axzo.template.fragment.src
+package axzo.template.core
 
 import axzo.template.common.currentTime
+import axzo.template.common.systemName
 
 
-fun generateFrg(applicationPackage: String?,
+fun generateAct(applicationPackage: String?,
                 activityClass: String,
                 layoutName: String,
                 packageName: String,
                 useViewModel: Boolean,
                 useDataBinding: Boolean): String {
     return if (useDataBinding) {
-        generateDbFragment(applicationPackage, activityClass, layoutName, packageName, useViewModel)
+        generateDbActivity(applicationPackage, activityClass, layoutName, packageName, useViewModel)
     } else {
-        generateFragment(applicationPackage, activityClass, layoutName, packageName, useViewModel)
+        generateActivity(applicationPackage, activityClass, layoutName, packageName, useViewModel)
     }
 }
 
 
-fun generateDbFragment(
+fun generateDbActivity(
         applicationPackage: String?,
         activityClass: String,
         layoutName: String,
@@ -26,27 +27,28 @@ fun generateDbFragment(
 ) = """
 package $packageName
 
+import android.app.Activity
 import android.os.Bundle
 import ${applicationPackage}.R
-import android.view.View
-import ${applicationPackage}.databinding.Fragment${activityClass}Binding
-import com.joker.core.ui.base.BaseDbFragment
-${if (useViewModel) "import androidx.fragment.app.viewModels" else ""}
+import ${applicationPackage}.databinding.Activity${activityClass}Binding
+import com.joker.core.ui.base.BaseDbActivity
+import org.jetbrains.anko.startActivity
+${if (useViewModel) "import androidx.activity.viewModels" else ""}
 ${if (useViewModel) "import ${packageName}.viewmodel.${activityClass}ViewModel" else ""}
 
 /**
- *  author : 
+ *  author : $systemName
  *  date : $currentTime
  *  description : 
  */
-class ${activityClass}Fragment : BaseDbFragment<Fragment${activityClass}Binding>() {
+class ${activityClass}Activity : BaseDbActivity<Activity${activityClass}Binding>() {
 
     override val layout = R.layout.${layoutName}
 
     ${if (useViewModel) "val viewModel by viewModels<${activityClass}ViewModel>()" else ""}
 
 
-    override fun onBindView(view: View?, savedInstanceState: Bundle?) {
+    override fun onBindView(savedInstanceState: Bundle?) {
         ${
     if (useViewModel) """
         binding.apply {
@@ -54,11 +56,17 @@ class ${activityClass}Fragment : BaseDbFragment<Fragment${activityClass}Binding>
        }""" else ""
 }
     }
+
+    companion object {
+        fun start(act: Activity) {
+            act.startActivity<${activityClass}Activity>()
+        }
+    }
 }
 
 """
 
-fun generateFragment(
+fun generateActivity(
         applicationPackage: String?,
         activityClass: String,
         layoutName: String,
@@ -67,28 +75,35 @@ fun generateFragment(
 ) = """
 package $packageName
 
+import android.app.Activity
 import android.os.Bundle
 import ${applicationPackage}.R
-import android.view.View
-import com.joker.core.ui.base.BaseFragment
-${if (useViewModel) "import androidx.fragment.app.viewModels" else ""}
+import org.jetbrains.anko.startActivity
+import com.joker.core.ui.base.BaseActivity
+${if (useViewModel) "import androidx.activity.viewModels" else ""}
 ${if (useViewModel) "import ${packageName}.viewmodel.${activityClass}ViewModel" else ""}
 
 /**
- *  author : 
+ *  author : $systemName
  *  date : $currentTime
  *  description : 
  */
-class ${activityClass}Fragment : BaseFragment() {
+class ${activityClass}Activity : BaseActivity() {
 
     override val layout = R.layout.${layoutName}
 
     ${if (useViewModel) "val viewModel by viewModels<${activityClass}ViewModel>()" else ""}
 
-    override fun onBindView(view: View?, savedInstanceState: Bundle?) {
-        
+
+    override fun onBindView(savedInstanceState: Bundle?) {
+    
     }
 
+    companion object {
+        fun start(act: Activity) {
+            act.startActivity<${activityClass}Activity>()
+        }
+    }
 }
 
 """

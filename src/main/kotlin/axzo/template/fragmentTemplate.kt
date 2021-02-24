@@ -1,6 +1,6 @@
-package axzo.template.fragment
+package axzo.template
 
-import axzo.template.activity.defaultPackageNameParameter
+import axzo.template.recipe.fragmentRecipe
 import com.android.tools.idea.wizard.template.*
 import com.android.tools.idea.wizard.template.impl.activities.common.MIN_API
 import java.io.File

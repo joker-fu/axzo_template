@@ -1,16 +1,15 @@
-package axzo.template.activity
+package axzo.template.recipe
 
-import axzo.template.activity.src.generateAct
 import axzo.template.common.generateViewModel
 import axzo.template.common.generateActivityXml
 import axzo.template.common.generateDbXml
 import axzo.template.common.generateViewModelXml
+import axzo.template.core.generateFrg
 import com.android.tools.idea.wizard.template.ModuleTemplateData
 import com.android.tools.idea.wizard.template.RecipeExecutor
-import com.android.tools.idea.wizard.template.impl.activities.common.generateManifest
 
 
-fun RecipeExecutor.activityRecipe(
+fun RecipeExecutor.fragmentRecipe(
         moduleData: ModuleTemplateData,
         activityClass: String,
         layoutName: String,
@@ -21,21 +20,13 @@ fun RecipeExecutor.activityRecipe(
     val (projectData, srcOut, resOut) = moduleData
     val ktOrJavaExt = projectData.language.extension
     val applicationPackage = projectData.applicationPackage ?: moduleData.packageName
-    generateManifest(
-            moduleData = moduleData,
-            activityClass = "${activityClass}Activity",
-            activityTitle = activityClass,
-            packageName = packageName,
-            isLauncher = false,
-            hasNoActionBar = false,
-            generateActivityTitle = false
-    )
 
-    val generateActivity = generateAct(applicationPackage, activityClass, layoutName, packageName, useViewModel, useDataBinding)
+    val generateActivity = generateFrg(applicationPackage, activityClass, layoutName, packageName, useViewModel, useDataBinding)
 
-    val activityFile = srcOut.resolve("${activityClass}Activity.${ktOrJavaExt}")
+    val activityFile = srcOut.resolve("${activityClass}Fragment.${ktOrJavaExt}")
     // 保存Activity
     save(generateActivity, activityFile)
+
     // 保存xml
     if (useViewModel && useDataBinding) {
         save(generateViewModelXml(packageName, activityClass), resOut.resolve("layout/${layoutName}.xml"))

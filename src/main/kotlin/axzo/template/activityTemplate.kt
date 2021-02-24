@@ -1,11 +1,12 @@
-package axzo.template.activity
+package axzo.template
 
+import axzo.template.recipe.activityRecipe
 import com.android.tools.idea.wizard.template.*
 import com.android.tools.idea.wizard.template.impl.activities.common.MIN_API
 import java.io.File
 
 
-val ActivityTemplate
+val activityTemplate
     get() = template {
         revision = 1
         name = "Axzo Activity"
