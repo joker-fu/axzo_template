@@ -13,13 +13,22 @@ fun RecipeExecutor.fragmentRecipe(
         packageName: String,
         useViewModel: Boolean = false,
         useDataBinding: Boolean = false,
-        app2: Boolean = false,
 ) {
     val (projectData, srcOut, resOut) = moduleData
     val ktOrJavaExt = projectData.language.extension
     val applicationPackage = projectData.applicationPackage ?: moduleData.packageName
+    var isRegulatory = false
+    if (applicationPackage == PackageManagement.REGULATORY) {
+        isRegulatory = true
+    }
 
-    val generateActivity = generateFrg(applicationPackage, activityClass, layoutName, packageName, useViewModel, useDataBinding, app2)
+    val generateActivity = generateFrg(applicationPackage,
+            activityClass,
+            layoutName,
+            packageName,
+            useViewModel,
+            useDataBinding,
+            isRegulatory)
 
     val activityFile = srcOut.resolve("${activityClass}Fragment.${ktOrJavaExt}")
     // 保存Activity
@@ -33,11 +42,11 @@ fun RecipeExecutor.fragmentRecipe(
     } else {
         save(generateActivityXml(), resOut.resolve("layout/${layoutName}.xml"))
     }
-    if (useViewModel && !app2) {
+    if (useViewModel && !isRegulatory) {
         // 保存ViewModel
         save(generateViewModel(packageName, activityClass), srcOut.resolve("viewmodel/${activityClass}ViewModel.${ktOrJavaExt}"))
     }
-    if (useViewModel && app2) {
+    if (useViewModel && isRegulatory) {
         // 保存ViewModel
         save(generateViewModel2(packageName, activityClass), srcOut.resolve("viewmodel/${activityClass}ViewModel.${ktOrJavaExt}"))
     }

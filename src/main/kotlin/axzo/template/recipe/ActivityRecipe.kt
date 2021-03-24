@@ -14,11 +14,16 @@ fun RecipeExecutor.activityRecipe(
         packageName: String,
         useViewModel: Boolean = false,
         useDataBinding: Boolean = false,
-        app2: Boolean = false,
-) {
+
+        ) {
     val (projectData, srcOut, resOut) = moduleData
     val ktOrJavaExt = projectData.language.extension
     val applicationPackage = projectData.applicationPackage ?: moduleData.packageName
+    var isRegulatory = false
+    if (applicationPackage == PackageManagement.REGULATORY) {
+        isRegulatory = true
+    }
+
     generateManifest(
             moduleData = moduleData,
             activityClass = "${activityClass}Activity",
@@ -29,7 +34,7 @@ fun RecipeExecutor.activityRecipe(
             generateActivityTitle = false
     )
 
-    val generateActivity = generateAct(applicationPackage, activityClass, layoutName, packageName, useViewModel, useDataBinding, app2)
+    val generateActivity = generateAct(applicationPackage, activityClass, layoutName, packageName, useViewModel, useDataBinding, isRegulatory)
 
     val activityFile = srcOut.resolve("${activityClass}Activity.${ktOrJavaExt}")
     // 保存Activity
@@ -44,7 +49,7 @@ fun RecipeExecutor.activityRecipe(
     }
     if (useViewModel) {
         // 保存ViewModel
-        if (app2) {
+        if (isRegulatory) {
             save(generateViewModel2(packageName, activityClass), srcOut.resolve("viewmodel/${activityClass}ViewModel.${ktOrJavaExt}"))
         } else {
             save(generateViewModel(packageName, activityClass), srcOut.resolve("viewmodel/${activityClass}ViewModel.${ktOrJavaExt}"))

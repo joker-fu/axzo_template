@@ -25,11 +25,6 @@ val viewModelTemplate
             constraints = listOf(Constraint.CLASS, Constraint.NONEMPTY, Constraint.UNIQUE)
         }
 
-        val app2 = booleanParameter {
-            name = "监管系统APP"
-            default = false
-            help = "是否使用ViewModel"
-        }
 
         val packageName = defaultPackageNameParameter
 
@@ -40,14 +35,12 @@ val viewModelTemplate
         widgets(
                 TextFieldWidget(activityClass),
                 PackageNameWidget(packageName),
-                CheckBoxWidget(app2),
         )
 
         recipe = { data: TemplateData ->
             viewModelRecipe(
                     data as ModuleTemplateData,
                     activityClass.value,
-                    packageName.value,
-                    app2.value)
+                    packageName.value,)
         }
     }
