@@ -1,6 +1,5 @@
 package axzo.template
 
-import axzo.template.recipe.listFragmentRecipe
 import axzo.template.recipe.viewModelRecipe
 import com.android.tools.idea.wizard.template.*
 import com.android.tools.idea.wizard.template.impl.activities.common.MIN_API
@@ -41,6 +40,6 @@ val viewModelTemplate
             viewModelRecipe(
                     data as ModuleTemplateData,
                     activityClass.value,
-                    packageName.value,)
+                    packageName.value)
         }
     }

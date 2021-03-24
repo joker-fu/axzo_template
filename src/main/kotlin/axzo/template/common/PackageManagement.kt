@@ -6,7 +6,7 @@ package axzo.template.common
  *  description : 
  */
 object PackageManagement {
-    const val WORKER = ""
-    const val MANAGEMENT = ""
+    const val WORKER = "cn.axzo.app"
+    const val MANAGEMENT = "cn.axzo.manager"
     const val REGULATORY = "cn.axzo.regulatory"
 }
