@@ -51,3 +51,42 @@ class ${activityClass}Fragment : BaseListFragment<Int>() {
 
 
 """
+
+
+fun generateListFragment2(
+        applicationPackage: String?,
+        activityClass: String,
+        packageName: String
+) = """
+package $packageName
+
+import cn.axzo.regulatory.R
+import cn.axzo.regulatory.common.base.AxListFragment
+import cn.jk.common.adapter.BaseViewHolder
+import cn.jk.common.model.pojo.ItemParams
+
+/**
+ *  author : $systemName
+ *  date : $currentTime
+ *  description : 
+ */
+class ${activityClass}Fragment : AxListFragment<Int>() {
+    override fun createItemParams(): ItemParams {
+        TODO()
+//        return ItemParams(R.layout.item_rating)
+    }
+
+    override fun loadData(pageIndex: Int) {
+        put(listOf(1, 2, 3, 4, 5))
+    }
+
+    override fun itemBinder(holder: BaseViewHolder, item: Int?, position: Int) {
+
+    }
+
+    override fun onObserve() {
+
+    }
+}
+
+"""
