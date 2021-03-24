@@ -2,17 +2,8 @@ package axzo.template
 
 import axzo.template.recipe.listFragmentRecipe
 import axzo.template.recipe.viewModelRecipe
-import com.android.tools.idea.wizard.template.Category
-import com.android.tools.idea.wizard.template.Constraint
-import com.android.tools.idea.wizard.template.FormFactor
-import com.android.tools.idea.wizard.template.ModuleTemplateData
-import com.android.tools.idea.wizard.template.PackageNameWidget
-import com.android.tools.idea.wizard.template.TemplateData
-import com.android.tools.idea.wizard.template.TextFieldWidget
-import com.android.tools.idea.wizard.template.WizardUiContext
+import com.android.tools.idea.wizard.template.*
 import com.android.tools.idea.wizard.template.impl.activities.common.MIN_API
-import com.android.tools.idea.wizard.template.stringParameter
-import com.android.tools.idea.wizard.template.template
 import java.io.File
 
 val viewModelTemplate
@@ -34,6 +25,12 @@ val viewModelTemplate
             constraints = listOf(Constraint.CLASS, Constraint.NONEMPTY, Constraint.UNIQUE)
         }
 
+        val app2 = booleanParameter {
+            name = "监管系统APP"
+            default = false
+            help = "是否使用ViewModel"
+        }
+
         val packageName = defaultPackageNameParameter
 
         thumb {
@@ -42,13 +39,15 @@ val viewModelTemplate
 
         widgets(
                 TextFieldWidget(activityClass),
-                PackageNameWidget(packageName)
+                PackageNameWidget(packageName),
+                CheckBoxWidget(app2),
         )
 
         recipe = { data: TemplateData ->
             viewModelRecipe(
                     data as ModuleTemplateData,
                     activityClass.value,
-                    packageName.value)
+                    packageName.value,
+                    app2.value)
         }
     }

@@ -1,10 +1,7 @@
 package axzo.template.recipe
 
+import axzo.template.common.*
 import axzo.template.core.generateAct
-import axzo.template.common.generateViewModel
-import axzo.template.common.generateActivityXml
-import axzo.template.common.generateDbXml
-import axzo.template.common.generateViewModelXml
 import com.android.tools.idea.wizard.template.ModuleTemplateData
 import com.android.tools.idea.wizard.template.RecipeExecutor
 import com.android.tools.idea.wizard.template.impl.activities.common.generateManifest
@@ -17,6 +14,7 @@ fun RecipeExecutor.activityRecipe(
         packageName: String,
         useViewModel: Boolean = false,
         useDataBinding: Boolean = false,
+        app2: Boolean = false,
 ) {
     val (projectData, srcOut, resOut) = moduleData
     val ktOrJavaExt = projectData.language.extension
@@ -31,7 +29,7 @@ fun RecipeExecutor.activityRecipe(
             generateActivityTitle = false
     )
 
-    val generateActivity = generateAct(applicationPackage, activityClass, layoutName, packageName, useViewModel, useDataBinding)
+    val generateActivity = generateAct(applicationPackage, activityClass, layoutName, packageName, useViewModel, useDataBinding, app2)
 
     val activityFile = srcOut.resolve("${activityClass}Activity.${ktOrJavaExt}")
     // 保存Activity
@@ -46,7 +44,11 @@ fun RecipeExecutor.activityRecipe(
     }
     if (useViewModel) {
         // 保存ViewModel
-        save(generateViewModel(packageName, activityClass), srcOut.resolve("viewmodel/${activityClass}ViewModel.${ktOrJavaExt}"))
+        if (app2) {
+            save(generateViewModel2(packageName, activityClass), srcOut.resolve("viewmodel/${activityClass}ViewModel.${ktOrJavaExt}"))
+        } else {
+            save(generateViewModel(packageName, activityClass), srcOut.resolve("viewmodel/${activityClass}ViewModel.${ktOrJavaExt}"))
+        }
     }
     open(activityFile)
 

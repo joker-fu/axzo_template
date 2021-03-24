@@ -46,7 +46,11 @@ val fragmentTemplate
                 fragmentToLayout(activityClass.value.toLowerCase())
             }
         }
-
+        val app2 = booleanParameter {
+            name = "监管系统APP"
+            default = false
+            help = "是否使用ViewModel"
+        }
         val packageName = defaultPackageNameParameter
 
         thumb {
@@ -57,7 +61,8 @@ val fragmentTemplate
                 TextFieldWidget(layoutName),
                 CheckBoxWidget(userViewModel),
                 CheckBoxWidget(useDataBinding),
-                PackageNameWidget(packageName)
+                PackageNameWidget(packageName),
+                CheckBoxWidget(app2),
         )
 
         recipe = { data: TemplateData ->
@@ -67,7 +72,8 @@ val fragmentTemplate
                     layoutName.value,
                     packageName.value,
                     useViewModel = userViewModel.value,
-                    useDataBinding = useDataBinding.value)
+                    useDataBinding = useDataBinding.value,
+                    app2 = app2.value)
 
         }
     }

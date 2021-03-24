@@ -30,12 +30,18 @@ val activityTemplate
             default = false
             help = "是否使用ViewModel"
         }
+        val app2 = booleanParameter {
+            name = "监管系统APP"
+            default = false
+            help = "是否使用ViewModel"
+        }
 
         val useDataBinding = booleanParameter {
             name = "Use DataBinding"
             default = true
             help = "是否使用DataBinding"
         }
+
 
         val layoutName = stringParameter {
             name = "Layout Name"
@@ -59,7 +65,8 @@ val activityTemplate
                 TextFieldWidget(layoutName),
                 CheckBoxWidget(userViewModel),
                 CheckBoxWidget(useDataBinding),
-                PackageNameWidget(packageName)
+                PackageNameWidget(packageName),
+                CheckBoxWidget(app2),
         )
 
         recipe = { data: TemplateData ->
@@ -69,8 +76,8 @@ val activityTemplate
                     layoutName.value,
                     packageName.value,
                     useViewModel = userViewModel.value,
-                    useDataBinding = useDataBinding.value)
-
+                    useDataBinding = useDataBinding.value,
+                    app2 = app2.value)
         }
     }
 
