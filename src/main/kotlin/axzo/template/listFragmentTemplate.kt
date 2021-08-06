@@ -8,11 +8,11 @@ import java.io.File
 
 val listFragmentTemplate
     get() = template {
-        revision = 1
+       // revision = 1
         name = "Axzo ListFragment"
         description = "适用于 Axzo 的ListFragment"
         minApi = MIN_API
-        minBuildApi = MIN_API
+        // minBuildApi = MIN_API
         category = Category.Fragment
         formFactor = FormFactor.Mobile
         screens = listOf(WizardUiContext.ActivityGallery, WizardUiContext.MenuEntry, WizardUiContext.NewProject, WizardUiContext.NewModule)

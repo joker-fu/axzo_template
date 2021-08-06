@@ -8,11 +8,9 @@ import java.io.File
 
 val fragmentTemplate
     get() = template {
-        revision = 1
         name = "Axzo Fragment"
         description = "适用于 Axzo 的Fragment"
         minApi = MIN_API
-        minBuildApi = MIN_API
         category = Category.Fragment
         formFactor = FormFactor.Mobile
         screens = listOf(WizardUiContext.ActivityGallery, WizardUiContext.MenuEntry, WizardUiContext.NewProject, WizardUiContext.NewModule)

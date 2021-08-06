@@ -24,8 +24,8 @@ import org.jetbrains.anko.startActivity
 /**
  *  author : $systemName
  *  date : $currentTime
- *  description : 
- */
+ *  description :
+ */
 class ${activityClass}Activity : BaseListActivity<Int>() {
     override fun createItemTypeParams(): ItemTypeParams {
         TODO()

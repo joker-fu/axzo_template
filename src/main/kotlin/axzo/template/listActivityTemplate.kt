@@ -8,11 +8,9 @@ import java.io.File
 
 val listActivityTemplate
     get() = template {
-        revision = 1
         name = "Axzo ListActivity"
         description = "适用于 Axzo 的ListActivity"
         minApi = MIN_API
-        minBuildApi = MIN_API
         category = Category.Activity
         formFactor = FormFactor.Mobile
         screens = listOf(WizardUiContext.ActivityGallery, WizardUiContext.MenuEntry, WizardUiContext.NewProject, WizardUiContext.NewModule)

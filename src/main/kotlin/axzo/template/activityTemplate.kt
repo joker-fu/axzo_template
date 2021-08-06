@@ -8,14 +8,17 @@ import java.io.File
 
 val activityTemplate
     get() = template {
-        revision = 1
         name = "Axzo Activity"
         description = "适用于 Axzo 的Activity"
         minApi = MIN_API
-        minBuildApi = MIN_API
         category = Category.Activity
         formFactor = FormFactor.Mobile
-        screens = listOf(WizardUiContext.ActivityGallery, WizardUiContext.MenuEntry, WizardUiContext.NewProject, WizardUiContext.NewModule)
+        screens = listOf(
+            WizardUiContext.ActivityGallery,
+            WizardUiContext.MenuEntry,
+            WizardUiContext.NewProject,
+            WizardUiContext.NewModule
+        )
 
 
         val activityClass = stringParameter {
@@ -56,21 +59,22 @@ val activityTemplate
         }
 
         widgets(
-                TextFieldWidget(activityClass),
-                TextFieldWidget(layoutName),
-                CheckBoxWidget(userViewModel),
-                CheckBoxWidget(useDataBinding),
-                PackageNameWidget(packageName),
+            TextFieldWidget(activityClass),
+            TextFieldWidget(layoutName),
+            CheckBoxWidget(userViewModel),
+            CheckBoxWidget(useDataBinding),
+            PackageNameWidget(packageName),
         )
 
         recipe = { data: TemplateData ->
             activityRecipe(
-                    data as ModuleTemplateData,
-                    activityClass.value,
-                    layoutName.value,
-                    packageName.value,
-                    useViewModel = userViewModel.value,
-                    useDataBinding = useDataBinding.value,)
+                data as ModuleTemplateData,
+                activityClass.value,
+                layoutName.value,
+                packageName.value,
+                useViewModel = userViewModel.value,
+                useDataBinding = useDataBinding.value,
+            )
         }
     }
 

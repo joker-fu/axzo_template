@@ -22,7 +22,6 @@ fun RecipeExecutor.listActivityRecipe(
     generateManifest(
             moduleData = moduleData,
             activityClass = "${activityClass}Activity",
-            activityTitle = activityClass,
             packageName = packageName,
             isLauncher = false,
             hasNoActionBar = false,

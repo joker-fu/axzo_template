@@ -1,6 +1,5 @@
 package axzo.template
 
-import axzo.template.recipe.activityRecipe
 import axzo.template.recipe.itemRecipe
 import com.android.tools.idea.wizard.template.Category
 import com.android.tools.idea.wizard.template.CheckBoxWidget
@@ -19,11 +18,9 @@ import java.io.File
 
 val itemTemplate
     get() = template {
-        revision = 1
         name = "Axzo Item XML"
         description = "创建一个xml"
         minApi = MIN_API
-        minBuildApi = MIN_API
         category = Category.Other
         formFactor = FormFactor.Mobile
         screens = listOf(WizardUiContext.ActivityGallery, WizardUiContext.MenuEntry, WizardUiContext.NewProject, WizardUiContext.NewModule)

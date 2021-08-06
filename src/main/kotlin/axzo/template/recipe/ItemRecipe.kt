@@ -2,6 +2,7 @@ package axzo.template.recipe
 
 import axzo.template.common.generateActivityXml
 import axzo.template.common.generateDbXml
+import axzo.template.core.manager
 import com.android.tools.idea.wizard.template.ModuleTemplateData
 import com.android.tools.idea.wizard.template.RecipeExecutor
 
@@ -12,10 +13,7 @@ fun RecipeExecutor.itemRecipe(
 ) {
     val resOut = moduleData.resDir
     val xmlFile = resOut.resolve("layout/${layoutName}.xml")
-    if (useDataBinding) {
-        save(generateDbXml(), xmlFile)
-    } else {
-        save(generateActivityXml(), xmlFile)
-    }
+    val xml = moduleData.manager.xml("", "", false, useDataBinding)
+    save(xml, xmlFile)
     open(xmlFile)
 }

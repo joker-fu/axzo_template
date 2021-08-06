@@ -21,7 +21,7 @@ fun RecipeExecutor.listFragmentRecipe(
     }
 
     val generateActivity = if (isRegulatory) {
-        generateListFragment2(applicationPackage, activityClass, packageName)
+        generateListFragment2(activityClass, packageName)
     } else {
         generateListFragment(applicationPackage, activityClass, packageName)
     }

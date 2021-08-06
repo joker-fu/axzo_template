@@ -7,11 +7,9 @@ import java.io.File
 
 val viewModelTemplate
     get() = template {
-        revision = 1
         name = "Axzo ViewModel"
         description = "创建单个ViewModel"
         minApi = MIN_API
-        minBuildApi = MIN_API
         category = Category.Other
         formFactor = FormFactor.Mobile
         screens = listOf(WizardUiContext.ActivityGallery, WizardUiContext.MenuEntry, WizardUiContext.NewProject, WizardUiContext.NewModule)

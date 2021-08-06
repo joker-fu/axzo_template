@@ -1,7 +1,6 @@
 package axzo.template.recipe
 
-import axzo.template.common.*
-import axzo.template.core.generateAct
+import axzo.template.core.manager
 import com.android.tools.idea.wizard.template.ModuleTemplateData
 import com.android.tools.idea.wizard.template.RecipeExecutor
 import com.android.tools.idea.wizard.template.impl.activities.common.generateManifest
@@ -19,42 +18,33 @@ fun RecipeExecutor.activityRecipe(
     val (projectData, srcOut, resOut) = moduleData
     val ktOrJavaExt = projectData.language.extension
     val applicationPackage = projectData.applicationPackage ?: moduleData.packageName
-    var isRegulatory = false
-    if (applicationPackage == PackageManagement.REGULATORY) {
-        isRegulatory = true
-    }
-
     generateManifest(
             moduleData = moduleData,
             activityClass = "${activityClass}Activity",
-            activityTitle = activityClass,
             packageName = packageName,
             isLauncher = false,
             hasNoActionBar = false,
             generateActivityTitle = false
     )
-
-    val generateActivity = generateAct(applicationPackage, activityClass, layoutName, packageName, useViewModel, useDataBinding, isRegulatory)
+    val act = moduleData.manager.activity(applicationPackage,
+            activityClass,
+            layoutName,
+            packageName,
+            useViewModel,
+            useDataBinding)
 
     val activityFile = srcOut.resolve("${activityClass}Activity.${ktOrJavaExt}")
     // 保存Activity
-    save(generateActivity, activityFile)
+    save(act, activityFile)
+
     // 保存xml
-    if (useViewModel && useDataBinding) {
-        save(generateViewModelXml(packageName, activityClass), resOut.resolve("layout/${layoutName}.xml"))
-    } else if (!useViewModel && useDataBinding) {
-        save(generateDbXml(), resOut.resolve("layout/${layoutName}.xml"))
-    } else {
-        save(generateActivityXml(), resOut.resolve("layout/${layoutName}.xml"))
-    }
+    val xml = moduleData.manager.xml(activityClass, packageName, useViewModel, useDataBinding)
+    save(xml, resOut.resolve("layout/${layoutName}.xml"))
+
     if (useViewModel) {
         // 保存ViewModel
-        if (isRegulatory) {
-            save(generateViewModel2(packageName, activityClass), srcOut.resolve("viewmodel/${activityClass}ViewModel.${ktOrJavaExt}"))
-        } else {
-            save(generateViewModel(packageName, activityClass), srcOut.resolve("viewmodel/${activityClass}ViewModel.${ktOrJavaExt}"))
-        }
+        val viewModel = moduleData.manager.viewModel(packageName, activityClass)
+        save(viewModel, srcOut.resolve("viewmodel/${activityClass}ViewModel.${ktOrJavaExt}"))
     }
     open(activityFile)
-
 }

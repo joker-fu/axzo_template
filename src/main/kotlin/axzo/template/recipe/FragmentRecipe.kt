@@ -1,7 +1,7 @@
 package axzo.template.recipe
 
 import axzo.template.common.*
-import axzo.template.core.generateFrg
+import axzo.template.core.manager
 import com.android.tools.idea.wizard.template.ModuleTemplateData
 import com.android.tools.idea.wizard.template.RecipeExecutor
 
@@ -22,33 +22,24 @@ fun RecipeExecutor.fragmentRecipe(
         isRegulatory = true
     }
 
-    val generateActivity = generateFrg(applicationPackage,
+
+    val activityFile = srcOut.resolve("${activityClass}Fragment.${ktOrJavaExt}")
+    // 保存Activity
+    save(moduleData.manager.fragment(applicationPackage,
             activityClass,
             layoutName,
             packageName,
             useViewModel,
-            useDataBinding,
-            isRegulatory)
-
-    val activityFile = srcOut.resolve("${activityClass}Fragment.${ktOrJavaExt}")
-    // 保存Activity
-    save(generateActivity, activityFile)
+            useDataBinding), activityFile)
 
     // 保存xml
-    if (useViewModel && useDataBinding) {
-        save(generateViewModelXml(packageName, activityClass), resOut.resolve("layout/${layoutName}.xml"))
-    } else if (!useViewModel && useDataBinding) {
-        save(generateDbXml(), resOut.resolve("layout/${layoutName}.xml"))
-    } else {
-        save(generateActivityXml(), resOut.resolve("layout/${layoutName}.xml"))
-    }
-    if (useViewModel && !isRegulatory) {
+    val xml = moduleData.manager.xml(activityClass, packageName, useViewModel, useDataBinding)
+    save(xml, resOut.resolve("layout/${layoutName}.xml"))
+
+    if (useViewModel) {
         // 保存ViewModel
-        save(generateViewModel(packageName, activityClass), srcOut.resolve("viewmodel/${activityClass}ViewModel.${ktOrJavaExt}"))
-    }
-    if (useViewModel && isRegulatory) {
-        // 保存ViewModel
-        save(generateViewModel2(packageName, activityClass), srcOut.resolve("viewmodel/${activityClass}ViewModel.${ktOrJavaExt}"))
+        val viewModel = moduleData.manager.viewModel(packageName, activityClass)
+        save(viewModel, srcOut.resolve("viewmodel/${activityClass}ViewModel.${ktOrJavaExt}"))
     }
     open(activityFile)
 

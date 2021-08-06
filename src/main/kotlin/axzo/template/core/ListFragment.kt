@@ -21,8 +21,8 @@ import com.joker.core.ui.base.list.ItemTypeParams
 /**
  *  author : $systemName
  *  date : $currentTime
- *  description : 
- */
+ *  description :
+ */
 class ${activityClass}Fragment : BaseListFragment<Int>() {
     override fun createItemTypeParams(): ItemTypeParams {
         TODO()
@@ -54,7 +54,6 @@ class ${activityClass}Fragment : BaseListFragment<Int>() {
 
 
 fun generateListFragment2(
-        applicationPackage: String?,
         activityClass: String,
         packageName: String
 ) = """
@@ -68,8 +67,8 @@ import cn.jk.common.model.pojo.ItemParams
 /**
  *  author : $systemName
  *  date : $currentTime
- *  description : 
- */
+ *  description :
+ */
 class ${activityClass}Fragment : AxListFragment<Int>() {
     override fun createItemParams(): ItemParams {
         TODO()
